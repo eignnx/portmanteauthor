@@ -15,6 +15,8 @@ gens = {
 @app.route('/word/<int:ngram_size>')
 def get_portmanteau(ngram_size):
     if ngram_size in supported_ngram_sizes:
-        return next(gens[ngram_size])
+        word = next(gens[ngram_size])
+        print(f"N = {ngram_size}: SENDING '{word}'.")
+        return word
     else:
         abort(404)

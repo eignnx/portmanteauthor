@@ -8,8 +8,8 @@ from utils import sliding_windows
 class MarkovGenerator:
     DEBUG = False
     MAX_LENGTH = 20
-    ENSURE_NOT_SUBSET = True
-    ENSURE_NOT_IN_CORPUS = False
+    ENSURE_NOT_SUBSET = False
+    ENSURE_NOT_IN_CORPUS = True
     MAX_ATTEMPTS = 10_000
 
     def __init__(self, ngram_size: int, corpus_file: str, already_seen: Optional[Set[str]] = None):
