@@ -1,8 +1,12 @@
 from flask import Flask, abort
+import sqlite3
+
 import markov
 
 app = Flask(__name__)
 
+conn = sqlite3.connect("test.db")
+c = conn.cursor()
 
 supported_ngram_sizes = [3,4,5]
 source_file = "./data/portmanteau-and-markov.txt"
@@ -20,3 +24,7 @@ def get_portmanteau(ngram_size):
         return word
     else:
         abort(404)
+
+@app.route('/portmantauthor/register_user/<username>')
+def register_user(username):
+    return None
