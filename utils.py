@@ -4,6 +4,13 @@ from operator import itemgetter
 from typing import Iterable
 
 
+def filename_from_path(path):
+    import os
+    *_parents, file_and_ext = os.path.split(path)
+    filename, _ext = os.path.splitext(file_and_ext)
+    return filename
+
+
 def sliding_windows(it: Iterable, n: int):
     it = iter(it)
     window = deque(islice(it, n), maxlen=n)
