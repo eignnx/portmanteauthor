@@ -1,10 +1,12 @@
+<!DOCTYPE html>
 <html>
   <head>
     <title>Portmanteauthor</title>
-    <script type="text/javascript" src="static/index.js" defer></script>
+    <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js" type="text/javascript"></script>
+<!--     <script defer src="static/index.js" type="text/javascript"></script> -->
   </head>
-  <body>
-    <section>
+  <body x-data="{ words: [] }">
+    <section id="introduction">
       <h1>Portmanteauthor</h1>
       <p>A portmanteau generator! This program uses lists of words from 
         <a href="wikipedia.org">Wikipedia</a> articles to build a Markov 
@@ -18,27 +20,79 @@
         can also be viewed on its own.</p>
     </section>
     
-    <section id="ui">
+    <section id="user-interface-controls" x-data="{ngramSize: 4}">
     <fieldset>
       <legend>Select an N-gram size:</legend>
-
-        <input type="radio" id="ngram-3" name="ngram-size" value="3">
-        <label for="ngram-3">3</label>
-    
-        <input type="radio" id="ngram-4" name="ngram-size" value="4"
-               checked>
-        <label for="ngram-4">4</label>
-    
-        <input type="radio" id="ngram-5" name="ngram-size" value="5">
-        <label for="ngram-5">5</label>
+        <template x-for="size in [3, 4, 5]" :key="size">
+          <span>
+          <input
+            type="radio"
+            :id="`ngram-size-${size}`"
+            :value="size.toString()"
+            x-model="ngramSize"
+          >
+          <label :for="`ngram-size-${size}`" x-text="size"/>
+          </span>
+        </template>
       </fieldset>
       <br>
-      <button id="new-word-button">Generate Word</button>
+      <button
+        id="new-word-button"
+        x-data="{disabled: false}"
+        :disabled="disabled"
+        @click="disabled = true; words = [(await fetchNewWord(ngramSize)), ...words]; disabled = false"
+        >Generate Word</button>
     </section>
     
-    <section>
-      <ul id="generated-words">
-      </ul>
+    <section id="generated-words">
+      <table>
+        <thead>
+        <tr>
+          <th>Word</th>
+          <th>N-gram Size</th>
+          <th>Corpus</th>
+        </tr>
+        </thead>
+        <tbody>
+        <template x-for="wordObj in words">
+          <tr>
+            <td x-text="wordObj.word"></td>
+            <td x-text="wordObj['ngram_size']"></td>
+            <td><a :href="`/static/data/${wordObj.corpus}.txt`" x-text="wordObj.corpus"/></td>
+          </tr>
+        </template>
+        </tbody>
+      </table>
     </section>
   </body>
+
+  <script>
+    async function fetchNewWord(ngramSize) {
+      const resp = await fetch(`/word/portmanteau_and_markov/${ngramSize}`)
+      const word = await resp.json()
+      return word
+    }
+  </script>
+
+  <style>
+    section#generated-words {
+      margin-top: 2rem;
+    }
+    
+    table {
+      table-layout: fixed;
+      width: 80%;
+      border-collapse: collapse;
+      margin-inline: auto;
+    }
+
+    tr {
+      padding: 2px;
+      border: 2px solid #eee;
+    }
+
+    td {
+      padding-inline: 1em;
+    }
+  </style>
 </html>

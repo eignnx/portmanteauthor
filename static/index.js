@@ -7,10 +7,10 @@ btn.addEventListener("click", async () => {
   ul.insertBefore(li, ul.firstChild)
 })
 
-async function fetchWord() {
+async function fetchNewWord() {
   btn.disabled = true
   const resp = await fetch(`/word/portmanteau_and_markov/${getNGramSize()}`)
-  const word = await resp.text()
+  const word = await resp.json()
   btn.disabled = false
   return word
 }
