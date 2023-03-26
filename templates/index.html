@@ -1,0 +1,44 @@
+<html>
+  <head>
+    <title>Portmanteauthor</title>
+    <script type="text/javascript" src="static/index.js" defer></script>
+  </head>
+  <body>
+    <section>
+      <h1>Portmanteauthor</h1>
+      <p>A portmanteau generator! This program uses lists of words from 
+        <a href="wikipedia.org">Wikipedia</a> articles to build a Markov 
+        chain with the given N-gram size. Then the Markov chain is used 
+        to generate words! Words generated are deduplicated on the server.</p>
+      <p>Currently only one source text file is used to build the Markov chain:
+        It's a list of words taken from the Wikipedia combined articles on
+        <a href="https://en.wikipedia.org/wiki/Portmanteau">Portmanteaus</a> 
+        and <a href="https://en.wikipedia.org/wiki/Markov_chain">Markov Chains</a>.
+        <a href="/static/data/portmanteau_and_markov.txt">This raw word list</a>
+        can also be viewed on its own.</p>
+    </section>
+    
+    <section id="ui">
+    <fieldset>
+      <legend>Select an N-gram size:</legend>
+
+        <input type="radio" id="ngram-3" name="ngram-size" value="3">
+        <label for="ngram-3">3</label>
+    
+        <input type="radio" id="ngram-4" name="ngram-size" value="4"
+               checked>
+        <label for="ngram-4">4</label>
+    
+        <input type="radio" id="ngram-5" name="ngram-size" value="5">
+        <label for="ngram-5">5</label>
+      </fieldset>
+      <br>
+      <button id="new-word-button">Generate Word</button>
+    </section>
+    
+    <section>
+      <ul id="generated-words">
+      </ul>
+    </section>
+  </body>
+</html>

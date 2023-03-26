@@ -1,8 +1,5 @@
-from flask import Flask, abort
-<<<<<<< HEAD
-=======
+from flask import Flask, abort, render_template
 import flask_cors
->>>>>>> 4912090f4a78b2d333c933de9cb15a0b09e70232
 import sqlite3
 
 import markov
@@ -20,7 +17,7 @@ DB_FILE = "words.db"
 
 supported_ngram_sizes = [3,4,5]
 source_files = [
-    "./data/portmanteau_and_markov.txt",
+    "./static/data/portmanteau_and_markov.txt",
 ]
 
 gens = {}
@@ -34,6 +31,9 @@ for source_file in source_files:
         for n in supported_ngram_sizes
     }
 
+@app.route('/', methods=['GET'])
+def index():
+  return render_template('index.html')
 
 @app.route('/word/<corpus>/<int:ngram_size>')
 def get_portmanteau(corpus, ngram_size):
@@ -48,14 +48,6 @@ def get_portmanteau(corpus, ngram_size):
 def register_user(username):
     return None
 
-@app.route("/")
-def hello():
-    return "WORKING"
-
 
 if __name__ == "__main__":
-    app.run(
-        #ssl_context="adhoc",
-        port=7000,
-    )
-
+  app.run(host='0.0.0.0', port=8080)
