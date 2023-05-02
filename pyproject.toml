@@ -6,7 +6,7 @@ authors = ["eignnx@gmail.com"]
 
 [tool.poetry.dependencies]
 python = "^3.10"
-Flask = "^2.2.3"
+Flask = "^2.3.2"
 Flask-Cors = "^3.0.10"
 
 [tool.poetry.dev-dependencies]
